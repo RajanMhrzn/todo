@@ -1,33 +1,51 @@
-import React, {useState} from 'react';
-import TodoList from './TodoList';
+import React, { useState } from "react";
+import TodoList from "./TodoList";
 // import { RiCLsoeCircleLine } from 'react-icons/ri';
 // import { TiEdit} from 'react-icons/ti';
 
-function Todo({ text }) {
-    const [edit, setEdit] = useState({
-        id: null,
-        value: ''
-    })
+// props =[ name, todo]
 
-    console.log("todo task", text);
-    
+//destructuring
+function Todo(props) {
+  const [edit, setEdit] = useState({
+    id: null,
+    value: "",
+  });
 
-  return<div>Hello</div>
-// todos.map((todo, index) => (
-//       <div className={todo.isComplete ? 'todo-row complete' : 'todo-row'} key = {index}>
-          {/* <div key={todo.id} onClick={() => completeTodo(todo.id)}>
+  console.log("todo task", props.todo);
+  // console.log("name ", props.name);
+
+  return (
+    <div>
+      {props.todo.map((to, idx) => {
+        return (
+          <div>
+            {to.id}
+            {to.text}
+          </div>
+        );
+      })}
+    </div>
+  );
+  // todos.map((todo, index) => (
+  //       <div className={todo.isComplete ? 'todo-row complete' : 'todo-row'} key = {index}>
+  {
+    /* <div key={todo.id} onClick={() => completeTodo(todo.id)}>
               {todo.text}
-          </div> */}
-          {/* <div className='icons'>
+          </div> */
+  }
+  {
+    /* <div className='icons'>
             <RiCLsoeCircleLine 
             onClick={() => removeTodo(todo.id)}
             className='delete-icon' />
             <TiEdit 
             // onClick={() => setTodo({id: todo.id, value: todo.text})}
             className='edit-icon' />
-          </div> */}
-    //   </div>
-//   ))
+          </div> */
+  }
+  //   </div>
+  //   ))
 }
 
-export default Todo
+export default Todo;
