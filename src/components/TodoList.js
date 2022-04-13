@@ -1,38 +1,57 @@
-import React, { useState } from "react";
-import Todo from "./Todo";
-import TodoForm from "./TodoForm";
+import React from "react";
+import { useState } from "react";
 
-function TodoList() {
-  const [todos, setTodos] = useState([]);
+const TodoList = ({ todos, deletion, editFunction, clickFunction }) => {
+  const [edit, setEdit] = useState(false);
 
-  const addTodo = (todo) => {
-    console.log("back", todo);
+  const [editedId, setEditedId] = useState();
+  const [editedTitle, setEditedTitle] = useState("");
 
-    if (!todo.text) {
-      return;
-    }
-
-    const newTodos = [...todos, todo];
-    setTodos(newTodos);
+  const handleChange = (e) => {
+    const editedTitle = e.target.value;
+    setEditedTitle(editedTitle);
   };
 
-  const completeTodo = (id) => {
-    let updatedTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        todo.isComplete = !todo.isComplete;
-      }
-      return todo;
+  const handleEdit = (id) => {
+    setEdit(true);
+    setEditedId(id);
+    const editableTodo = todos.filter((todo, idx) => todo.id === id);
+    setEditedTitle(editableTodo[0].title);
+  };
+
+  const submitEdit = () => {
+    editFunction({
+      id: editedId,
+      title: editedTitle,
     });
-    setTodos(updatedTodos);
+    setEdit(false);
+  };
+  const clickFunction1 = (id) => {
+    console.log("clicked here");
   };
 
   return (
     <div>
-      <h1>Whats your plan today?</h1>
-      <TodoForm onSubmit={addTodo} />
-      <Todo todo={todos} />
+      {edit && (
+        <div>
+          <input type="text" value={editedTitle} onChange={handleChange} />
+          <button onClick={submitEdit}>Change</button>
+        </div>
+      )}
+      {todos.map((todo, idx) => {
+        return (
+          <div key={todo.id}>
+            <div>
+              <span>{todo.id} </span>, {todo.title}
+              <button onClick={() => deletion(todo.id)}>X</button>
+              <button onClick={() => handleEdit(todo.id)}>edit</button>
+              <button onClick={clickFunction1(2)}>click</button>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
-}
+};
 
 export default TodoList;
